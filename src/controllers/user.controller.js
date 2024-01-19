@@ -1,9 +1,7 @@
-import { asyncHandler, asyncHandlerPromise } from "../utils/asyncHandler.js";
+import { asyncHandlerPromise } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/user.modal.js";
-import Jwt from "jsonwebtoken";
-import { json } from "express";
 
 const generateAccessAndRefreshToken = async (userId) => {
   try {
@@ -47,7 +45,6 @@ const registerUser = asyncHandlerPromise(async (req, res) => {
 
   const { username, email, password, fullName } = reqBody;
 
-
   const existedUser = await User.findOne({
     $or: [{ username }, { email }],
   });
@@ -57,10 +54,6 @@ const registerUser = asyncHandlerPromise(async (req, res) => {
   } else {
     console.log("User does not exist in the database");
   }
-
-
-
-
 
   const user = await User.create({
     fullName,
